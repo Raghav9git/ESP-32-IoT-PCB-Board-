@@ -1,18 +1,18 @@
-ESP32-C3 IoT Sensor Development Board
+## ESP32-C3 IoT Sensor Development Board
 
 A compact 4-layer IoT development board built around the ESP32-C3, integrating environmental sensing, local storage, USB-C power with LiPo battery management, and a programming/debug interface on a single board. Designed in KiCad 10.0.
 
 This is a multi-domain hardware project that brings power electronics, mixed-signal sensor front-ends, digital interfaces, and RF-module integration together on one board — and routes them on a 4-layer stackup with dedicated power and ground planes.
 
 
-Overview
+## Overview
 
 The goal of this board is a self-contained, battery-capable IoT platform: an ESP32-C3 (Wi-Fi + BLE) as the brain, surrounded by the supporting subsystems a real IoT device needs — clean regulated power, safe battery charging, local data storage, environmental sensors, and a robust USB programming path.
 
 It was built as a deliberate skill-development project to practice end-to-end PCB design across several engineering domains in a single, non-trivial board, rather than a series of isolated single-function boards.
 
 
-Features
+## Features
 
 
 MCU: ESP32-C3-WROOM-02 module — Wi-Fi + Bluetooth LE
@@ -36,32 +36,32 @@ PCB: 4-layer design with dedicated power and ground planes
 
 
 
-Tech Specs
+## Tech Specs
 
 ItemDetailMicrocontrollerESP32-C3-WROOM-02 (Wi-Fi + BLE)PCB layers4 (signal / GND plane / power plane / signal)Power inputUSB-C (5 V) and LiPo batteryLogic rail3.3 V (LM1117 LDO)ChargingMCP73871 LiPo charger / power pathUSB–UART bridgeCP2102NStoragemicroSD (SPI) + W25Q32 SPI flashSensorsBME280, TEMT6000, MAX4466 mic ampInterfacesI²C, SPI, UART, GPIO headerDesign toolKiCad 10.0
 
 
-Subsystem Architecture
+## Subsystem Architecture
 
 The board is organized as a set of interacting subsystems. Each block exists for a specific reason:
 
-Power & Battery Management
+## Power & Battery Management
 
 USB-C delivers 5 V, passed through a fuse for input protection. The MCP73871 handles LiPo charging and automatic power-path switching between USB power and battery, so the board runs from USB when connected and from battery otherwise. The LM1117 LDO derives the clean 3.3 V logic rail from the 5 V rail. Input and output decoupling capacitors sit close to the regulator for stability.
 
-MCU
+## MCU
 
 The ESP32-C3-WROOM-02 is the core — a single-chip Wi-Fi + BLE module. It runs from the 3.3 V rail with local decoupling, and exposes the SPI, I²C, UART, and GPIO interfaces that connect to the rest of the board.
 
-Programming & Auto-Reset
+## Programming & Auto-Reset
 
 A CP2102N USB-to-UART bridge provides the serial programming/debug interface over USB-C. The DTR/RTS auto-reset circuit (two transistors) automatically drives the EN and BOOT lines during flashing, so firmware can be uploaded without manually pressing buttons — the standard ESP programming convenience circuit. USBLC6 ESD protection guards the USB data lines.
 
-Storage
+## Storage
 
 A microSD slot (SPI) provides removable local storage for data logging, and an onboard W25Q32 SPI flash offers fixed storage for configuration or firmware data. Test points on the SPI/SD lines allow probing during bring-up.
 
-Sensors (Mixed-Signal Front-Ends)
+## Sensors (Mixed-Signal Front-Ends)
 
 
 BME280 — digital environmental sensor (temperature, humidity, pressure) on the I²C/SPI bus.
@@ -71,12 +71,12 @@ Electret mic + MAX4466 — an analog audio front-end; the MAX4466 amplifies the 
 
 The analog sensor front-ends are the mixed-signal portion of the design, where layout and grounding affect signal quality.
 
-User Interface
+## User Interface
 
 Boot and Reset buttons with RC debounce, status LEDs for power/operation indication, an I²C header for an OLED display, and a GPIO breakout header for expansion.
 
 
-Design Highlights
+## Design Highlights
 
 
 4-layer stackup with dedicated ground and power planes for clean power distribution and a solid low-impedance ground return — important on a board mixing RF, analog sensors, and digital interfaces.
@@ -88,7 +88,7 @@ Compact, thoughtful component placement following the power and signal flow.
 
 
 
-Project Status
+## Project Status
 
 ~80% complete.
 
@@ -108,7 +108,7 @@ Project Status
 Remaining work is finishing/polish: silkscreen cleanup, a final DRC pass, and generating manufacturing files.
 
 
-Skills Developed
+## Skills Developed
 
 This project was built to practice the full PCB workflow on a realistic, multi-domain board:
 
@@ -125,7 +125,7 @@ Reading and applying datasheets for component configuration
 
 
 
-Tools
+## Tools
 
 
 KiCad 10.0 — schematic capture and PCB layout
@@ -133,16 +133,9 @@ Component symbols, footprints, and 3D models sourced from KiCad libraries and st
 
 
 
-References & Acknowledgments
+## References & Acknowledgments
 
 This board was built as a learning project to develop hands-on PCB design skills across power, mixed-signal, and digital domains. The design follows and adapts a published KiCad IoT development-board reference/tutorial as a starting point, which I used to study how a complete, multi-subsystem board is architected, laid out on four layers, and prepared for manufacturing.
-
-
-Add the link to the specific reference design/tutorial you followed here, so the credit is explicit.
-
-
-
-The value of the project for me was in building, routing, debugging, and understanding the full board end-to-end in KiCad — not in originating the concept. The subsystem breakdown above reflects my understanding of why each block exists and how they interact.
 
 
 License
